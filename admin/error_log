@@ -1,0 +1,11 @@
+[23-Apr-2022 14:34:34 UTC] PHP Notice:  Undefined variable: ULxxr in /home5/canyouthdmv/public_html/canyouthdmv/include/config.php on line 7
+[23-Apr-2022 14:34:38 UTC] PHP Notice:  Undefined variable: ULxxr in /home5/canyouthdmv/public_html/canyouthdmv/include/config.php on line 7
+[23-Apr-2022 14:35:39 UTC] PHP Notice:  Undefined variable: ULxxr in /home5/canyouthdmv/public_html/canyouthdmv/include/config.php on line 6
+[23-Apr-2022 14:37:35 UTC] PHP Notice:  Undefined variable: ULxxr in /home5/canyouthdmv/public_html/canyouthdmv/include/config.php on line 6
+[23-Apr-2022 14:37:40 UTC] PHP Notice:  Undefined variable: ULxxr in /home5/canyouthdmv/public_html/canyouthdmv/include/config.php on line 6
+[23-Apr-2022 15:00:28 UTC] PHP Notice:  Undefined index: tags in /home5/canyouthdmv/public_html/canyouthdmv/admin/add-article.php on line 24
+[23-Apr-2022 15:00:28 UTC] PHP Warning:  implode(): Invalid arguments passed in /home5/canyouthdmv/public_html/canyouthdmv/admin/add-article.php on line 24
+[23-Apr-2022 15:00:28 UTC] PHP Notice:  Undefined index: topics in /home5/canyouthdmv/public_html/canyouthdmv/admin/add-article.php on line 25
+[23-Apr-2022 15:00:28 UTC] PHP Warning:  implode(): Invalid arguments passed in /home5/canyouthdmv/public_html/canyouthdmv/admin/add-article.php on line 25
+[23-Apr-2022 15:00:28 UTC] PHP Notice:  Undefined index: scientific in /home5/canyouthdmv/public_html/canyouthdmv/admin/add-article.php on line 32
+[23-Apr-2022 15:00:28 UTC] PHP Notice:  Undefined property: PDO::$error in /home5/canyouthdmv/public_html/canyouthdmv/admin/add-article.php on line 98
