@@ -3,6 +3,39 @@ ob_start();
 session_start();
 
 include 'include/config.php';
+function get_all_articles()
+{
+    include 'include/config.php';
+    $query = "SELECT *  FROM articles WHERE status=1 ORDER BY id DESC LIMIT 0,20";
+
+    $stmt = $conn->prepare($query);
+    $stmt->execute();
+    $num = $stmt->rowCount();
+    $res = array();
+    if ($num > 0) {
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            extract($row);
+            array_push($res, array(
+                "id" => $id,
+                "title" => $title,
+                "categories" => $categories,
+                "topics" => $topics,
+                "image" => $image,
+                "content" => $content,
+                "tags" => $tags,
+                "scientific" => $scientific,
+                "created_on" => Date('d M yy', strtotime($created_on)),
+                "status" => $status
+            ));
+        }
+    }
+
+    //print_r($res);
+    return $res;
+}
+// include 'include/functions.php';
+$get_all_articles = get_all_articles();
+
 
 ?>
 
@@ -133,103 +166,98 @@ include 'include/config.php';
 
 
                 </div>
-                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img class="d-block w-100" src="https://img.freepik.com/free-vector/happy-people-dancing-party-together_74855-6512.jpg?t=st=1650731621~exp=1650732221~hmac=6ff26048a331726cd51361b9bb1aac5ddfffd58da4fe8d505bdee6801aec54f1&w=1060" alt="First slide">
-                        </div>
-                        <div class="carousel-item">
-                            <img class="d-block w-100" src="https://img.freepik.com/free-vector/flat-people-dancing-illustration_52683-70934.jpg?t=st=1650731621~exp=1650732221~hmac=5a44ab20e45bc8de3f1ed24167f78bdab1a5e1feb774dc160cec9191187f2fcc&w=900" alt="Second slide">
-                        </div>
-                        <div class="carousel-item">
-                            <img class="d-block w-100" src="https://img.freepik.com/free-vector/silhouettes-party-people-mirror-ball-disco-background_1048-13833.jpg?t=st=1650731621~exp=1650732221~hmac=eb6a6f5e6fa3ef5b6102b740c0a368fdeca4fb5825020645c1f3e9e8a83beb31&w=826" alt="Third slide">
-                        </div>
+                <section class="section">
+                    <div class="container">
+                        <?php foreach ($get_all_articles as $get_all_article) {        ?>
+                            <di class="row">
+                                <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="page-wrapper">
+                                        <!-- <div class="blog-top clearfix">
+                                        <h4 class="pull-left">Recent News <a href="#"><i class="fa fa-rss"></i></a></h4>
+                                    </div>end blog-top -->
+
+                                        <div class="blog-list clearfix">
+                                            <div class="blog-box row">
+                                                <div class="col-md-4">
+                                                    <div class="post-media">
+                                                        <a href="tech-single.html" title="">
+                                                            <img src="./admin/uploads/articles/<?php echo $get_all_article['image']; ?>" alt="" class="img-fluid">
+                                                            <div class="hovereffect"></div>
+                                                        </a>
+                                                    </div><!-- end media -->
+                                                </div><!-- end col -->
+
+                                                <div class="blog-meta big-meta col-md-8">
+                                                    <h4><a href="feature_details.php?article_id=<?php echo  $get_all_article['id']; ?>" title=""><?php echo $get_all_article['title']; ?></a></h4>
+                                                    <?php $string = strip_tags($get_all_article['content']);
+                                                    if (strlen($string) > 500) {
+
+                                                        // truncate string
+                                                        $stringCut = substr($string, 0, 150);
+                                                        $endPoint = strrpos($stringCut, ' ');
+
+                                                        //if the string doesn't contain any space then it will cut without word basis.
+                                                        $string = $endPoint ? substr($stringCut, 0, $endPoint) : substr($stringCut, 0);
+                                                        $string .= '... <a href="feature_details.php?article_id=' . $get_all_article["id"] . '">Read More</a>';
+                                                    }
+                                                    echo $string;    ?>
+                                                    <p><?php // echo  $get_all_article['content']; 
+                                                        ?></p>
+                                                    <small class="firstsmall"><a class="bg-orange" href="tech-category-01.html" title=""><?php echo $get_all_article['categories']; ?></a></small>
+                                                    <small><a href="#" title=""><?php echo $get_all_article['created_on']; ?></a></small>
+                                                    <!-- <small><a href="tech-author.html" title="">by Matilda</a></small> -->
+                                                    <!-- <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> 1114</a></small> -->
+                                                </div><!-- end meta -->
+                                            </div><!-- end blog-box -->
+
+
+
+                                            <hr class="invis">
+
+                                            <!-- <div class="row">
+                                            <div class="col-md-12">
+                                                <nav aria-label="Page navigation">
+                                                    <ul class="pagination justify-content-start">
+                                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                        <li class="page-item">
+                                                            <a class="page-link" href="#">Next</a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                        </div> -->
+                                        </div><!-- end col -->
+                                    </div>
+                                </div>
+                            </di <?php   }      ?> </section>
+
                     </div>
-                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </div>
-                <!-- ======= Values Section ======= -->
-                <section id="values" class="values">
+                </section><!-- End Portfolio Section -->
+
+                <!-- ======= Clients Section ======= -->
+                <section id="clients" class="clients">
                     <div class="container">
 
-                        <div class="section-title" data-aos="fade-up">
-                            <h2>Description</h2>
-                            <p>Can youth working towards to enhance the skills of every individual in accordance to their peer groups, by creating a platform for every individual, where they outshine their skills and talents for the welfare of the society and their livelihood. </p>
+                        <div class="section-title">
+                            <h2>Clients</h2>
+                            <p></p>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6 d-flex align-items-stretch" data-aos="fade-up">
-                                <div class="card" style="background-image: url(assets/images/BPS_SECURITY/3espace.jpg);">
-                                    <!-- <div class="card-body">
-                                        <h5 class="card-title"><a href="">3E SPACE ACTIVITY </a></h5>
-                                        <p class="card-text">creating a platform for every individual, where they outshine their skills and talents for the welfare of the society and their livelihood.</p>
-                                        <div class="read-more"><a href="3espace.php"><i class="icofont-arrow-right"></i> Read More</a></div>
-                                    </div> -->
-                                </div>
-                            </div>
-                            <div class="col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="fade-up" data-aos-delay="100">
-                                <div class="card" style="background-image: url(assets/images/BPS_SECURITY/Adol1.jpg);">
-                                    <!-- <div class="card-body">
-                                        <h5 class="card-title"><a href="">Development For Adolescent </a></h5>
-                                        <p class="card-text">Awareness program on Tobacco</p>
-                                        <div class="read-more"><a href=""><i class="icofont-arrow-right"></i> Read More</a></div>
-                                    </div> -->
-                                </div>
-
-                            </div>
-                            <div class="col-md-6 d-flex align-items-stretch mt-4" data-aos="fade-up" data-aos-delay="200">
-                                <div class="card" style="background-image: url(assets/images/BPS_SECURITY/Childright.jpeg);">
-                                    <!-- <div class="card-body">
-                                        <h5 class="card-title"><a href="">Other Program</a></h5>
-                                        <p class="card-text">Campaign at schools on santsitisation for child rights</p>
-                                        <div class="read-more"><a href=""><i class="icofont-arrow-right"></i> Read More</a></div>
-                                    </div> -->
-                                </div>
-                            </div>
-                            <div class="col-md-6 d-flex align-items-stretch mt-4" data-aos="fade-up" data-aos-delay="300">
-                                <div class="card" style="background-image: url(assets/images/BPS_SECURITY/skilldev.jpg);">
-                                    <!-- <div class="card-body">
-                                        <h5 class="card-title"><a href="">Skill Development Training</a></h5>
-                                        <p class="card-text">Skill training programme on handicraft2</p>
-                                        <div class="read-more"><a href=""><i class="icofont-arrow-right"></i> Read More</a></div>
-                                    </div> -->
-                                </div>
-                            </div>
-
+                        <div class="owl-carousel clients-carousel">
+                            <img src="assets/img/clients/client-1.png" alt="">
+                            <img src="assets/img/clients/client-2.png" alt="">
+                            <img src="assets/img/clients/client-3.png" alt="">
+                            <img src="assets/img/clients/client-4.png" alt="">
+                            <img src="assets/img/clients/client-5.png" alt="">
+                            <img src="assets/img/clients/client-6.png" alt="">
+                            <img src="assets/img/clients/client-7.png" alt="">
+                            <img src="assets/img/clients/client-8.png" alt="">
                         </div>
-                </section>
 
-            </div>
-        </section><!-- End Portfolio Section -->
-
-        <!-- ======= Clients Section ======= -->
-        <section id="clients" class="clients">
-            <div class="container">
-
-                <div class="section-title">
-                    <h2>Clients</h2>
-                    <p></p>
-                </div>
-
-                <div class="owl-carousel clients-carousel">
-                    <img src="assets/img/clients/client-1.png" alt="">
-                    <img src="assets/img/clients/client-2.png" alt="">
-                    <img src="assets/img/clients/client-3.png" alt="">
-                    <img src="assets/img/clients/client-4.png" alt="">
-                    <img src="assets/img/clients/client-5.png" alt="">
-                    <img src="assets/img/clients/client-6.png" alt="">
-                    <img src="assets/img/clients/client-7.png" alt="">
-                    <img src="assets/img/clients/client-8.png" alt="">
-                </div>
-
-            </div>
-        </section><!-- End Clients Section -->
+                    </div>
+                </section><!-- End Clients Section -->
 
     </main><!-- End #main -->
 
